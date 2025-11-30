@@ -351,9 +351,9 @@
                 </div>
                 <div class="bg-stone-900 p-8 md:p-12 border border-stone-800 rounded-sm" data-aos="fade-left">
                     <form id="contact-form" class="space-y-8">
-                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Name</label><input type="text" name="user_name" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="John Doe" required></div>
-                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Email</label><input type="email" name="user_email" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="john@example.com" required></div>
-                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Message</label><textarea name="message" rows="4" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="Tell me about your project..." required></textarea></div>
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Name</label><input type="text" name="user_name" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="Your Name" required></div>
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Email</label><input type="email" name="user_email" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="Your email" required></div>
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Message</label><textarea name="message" rows="4" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="Please type your message here" required></textarea></div>
                         <button type="submit" id="send-btn" class="w-full bg-luxury-gold text-luxury-black font-bold uppercase tracking-[0.2em] py-4 text-xs hover:bg-white transition-colors duration-300">Send Message</button>
                         <p id="form-status" class="text-center text-xs tracking-widest mt-4 h-4"></p>
                     </form>
@@ -623,7 +623,7 @@
             
             emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
                 .then(() => {
-                    status.innerHTML = 'MESSAGE SENT SUCCESSFULLY';
+                    status.innerHTML = 'MESSAGE SENT SUCCESSFULLY. I will contact you Soon';
                     status.style.color = '#10b981';
                     btn.innerHTML = 'SEND MESSAGE';
                     this.reset();
