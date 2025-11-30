@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweth Shaw | Full Stack Architect</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'luxury-cream': '#F9F8F4',
+                        'luxury-black': '#1A1A1A',
+                        'luxury-gold': '#D4AF37',
+                        'luxury-grey': '#4A4A4A',
+                        'soft-sand': '#E8E6E1'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'marquee': 'marquee 30s linear infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F8F4; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        .chart-container { position: relative; width: 100%; height: 350px; max-width: 500px; margin: 0 auto; }
+        .project-card { transition: transform 0.1s; transform-style: preserve-3d; }
+        #loader { position: fixed; inset: 0; background: #F9F8F4; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .mobile-menu-enter { transform: translateY(-100%); opacity: 0; }
+        .mobile-menu-enter-active { transform: translateY(0); opacity: 1; transition: all 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-luxury-cream text-luxury-black font-sans antialiased overflow-x-hidden selection:bg-luxury-gold selection:text-white">
+
+    <!-- LOADING SCREEN -->
+    <div id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-5xl text-luxury-black tracking-widest mb-4">Sweth Shaw</h1>
+            <div class="w-16 h-1 bg-luxury-gold mx-auto animate-pulse"></div>
+            <p class="mt-4 text-xs tracking-[0.3em] uppercase text-luxury-grey">Initializing Portfolio</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 w-full z-50 bg-luxury-cream/90 backdrop-blur-md border-b border-luxury-gold/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-serif text-2xl font-bold tracking-tighter hover:text-luxury-gold transition-colors">Sweth<span class="text-luxury-gold">Shaw</span></a>
+            <div class="hidden md:flex space-x-8 text-xs font-medium tracking-[0.2em] uppercase">
+                <a href="#about" class="hover:text-luxury-gold transition-colors relative group">Identity<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#skills" class="hover:text-luxury-gold transition-colors relative group">Capability<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#projects" class="hover:text-luxury-gold transition-colors relative group">Works<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#experience" class="hover:text-luxury-gold transition-colors relative group">Timeline<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#contact" class="hover:text-luxury-gold transition-colors relative group">Contact<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-luxury-black text-xl focus:outline-none hover:text-luxury-gold transition-colors"><i class="fas fa-bars"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-luxury-cream border-t border-stone-200 absolute w-full left-0 shadow-xl">
+            <div class="flex flex-col p-6 space-y-4 text-center">
+                <a href="#about" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Identity</a>
+                <a href="#skills" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Capability</a>
+                <a href="#projects" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Works</a>
+                <a href="#experience" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Timeline</a>
+                <a href="#contact" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <canvas id="heroCanvas" class="absolute inset-0 z-0"></canvas>
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto opacity-0 animate-fade-in-up" style="animation-delay: 0.5s;">
+            <p class="text-luxury-gold tracking-[0.4em] uppercase text-xs md:text-sm mb-6 font-semibold">Full Stack & Mobile Developer</p>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-medium text-luxury-black mb-6 leading-tight">Sweth Shaw</h1>
+            <div class="h-8 mb-8">
+                <p class="text-luxury-grey text-lg md:text-xl font-light font-serif italic">I build <span id="typing-text" class="text-luxury-black font-normal not-italic"></span><span class="animate-pulse">|</span></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
+                <a href="Sweth_Shaw_FullStack_Resume.pdf" download class="group relative px-8 py-4 bg-luxury-black text-white text-xs tracking-[0.2em] uppercase overflow-hidden transition-all hover:bg-luxury-gold hover:shadow-lg">
+                    <span class="relative z-10">Download CV <i class="fas fa-download ml-2"></i></span>
+                </a>
+                <a href="#contact" class="px-8 py-4 border border-luxury-black text-luxury-black text-xs tracking-[0.2em] uppercase hover:bg-luxury-black hover:text-white transition-colors duration-300">Hire Me</a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" onclick="document.getElementById('about').scrollIntoView()"><i class="fas fa-chevron-down text-luxury-gold opacity-80 text-xl"></i></div>
+    </header>
+
+    <main class="relative bg-luxury-cream">
+
+        <!-- ABOUT & STATS SECTION -->
+        <section id="about" class="py-24 px-6 md:px-12 border-t border-luxury-gold/10">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div data-aos="fade-right">
+                        <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-4 block">The Profile</span>
+                        <h2 class="font-serif text-5xl md:text-6xl text-luxury-black mb-8">Engineered for <br> <span class="italic text-luxury-grey">Impact.</span></h2>
+                        <p class="text-luxury-grey leading-loose font-light mb-6 text-justify">
+                            I am a software engineer based in India with a relentless focus on optimization and user experience. With a <strong class="text-luxury-black">B.Tech in Computer Science</strong> from Lovely Professional University (CGPA 7.47), I bridge the gap between complex backend logic and fluid frontend interfaces.
+                        </p>
+                        <p class="text-luxury-grey leading-loose font-light mb-8 text-justify">
+                            My expertise spans the <strong class="text-luxury-black">MERN stack, Python automation, and Native Mobile development</strong>. I don't just write code; I solve problems—proven by my record of 400+ algorithmic solutions across competitive platforms.
+                        </p>
+                        <div class="flex gap-6 pt-4 border-t border-stone-200 w-max">
+                            <a href="https://www.linkedin.com/in/swethshaw/" target="_blank" class="text-stone-400 hover:text-luxury-gold hover:scale-110 transition-all text-2xl"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/swethshaw" target="_blank" class="text-stone-400 hover:text-luxury-gold hover:scale-110 transition-all text-2xl"><i class="fab fa-github"></i></a>
+                            <a href="mailto:swethshaw@gmail.com" class="text-stone-400 hover:text-luxury-gold hover:scale-110 transition-all text-2xl"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC DSA CHART SECTION -->
+                    <div class="relative" data-aos="fade-left">
+                        <div class="absolute -top-10 -right-10 w-32 h-32 bg-luxury-gold/10 rounded-full blur-3xl"></div>
+                        <div class="bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-stone-100 rounded-sm">
+                            <h3 class="font-serif text-2xl text-center mb-8">Algorithmic Proficiency</h3>
+                            
+                            <div class="chart-container">
+                                <canvas id="dsaChart"></canvas>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4 text-center mt-8 border-t border-stone-100 pt-6">
+                                <div>
+                                    <h4 id="stat-leetcode" class="font-serif text-2xl text-luxury-black counter" data-target="300">0</h4>
+                                    <p class="text-[10px] uppercase tracking-widest text-luxury-grey">LeetCode</p>
+                                </div>
+                                <div>
+                                    <h4 id="stat-gfg" class="font-serif text-2xl text-luxury-black counter" data-target="200">0</h4>
+                                    <p class="text-[10px] uppercase tracking-widest text-luxury-grey">GFG</p>
+                                </div>
+                                <div>
+                                    <h4 id="stat-hackerrank" class="font-serif text-2xl text-luxury-gold" data-score="50">Gold</h4>
+                                    <p class="text-[10px] uppercase tracking-widest text-luxury-grey">HackerRank</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="py-24 bg-stone-100 px-6 md:px-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent opacity-30"></div>
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-3 block">Capability Matrix</span>
+                    <h2 class="font-serif text-5xl text-luxury-black">Technical Arsenal</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div class="lg:col-span-1 space-y-12" data-aos="fade-right">
+                        <!-- Skills Text lists -->
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Frontend</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">React.js</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Tailwind</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">HTML5/CSS3</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Backend</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Node.js</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Express</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Django</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Tools</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">MongoDB</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Firebase</span>
+                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Git/GitHub</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC RADAR CHART -->
+                    <div class="lg:col-span-2 flex items-center justify-center bg-white border border-stone-200 shadow-sm p-6 rounded-sm" data-aos="zoom-in">
+                        <div class="chart-container">
+                            <canvas id="skillsRadar" data-scores="[90, 80, 75, 75, 70, 90]"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="py-24 px-6 md:px-12 bg-luxury-black text-luxury-cream overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-luxury-gold/30 pb-6" data-aos="fade-up">
+                    <div>
+                        <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-2 block">Selected Works</span>
+                        <h2 class="font-serif text-5xl text-white">Digital Creations</h2>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="100">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-gamepad text-3xl"></i></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">Algorithm & AI</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Micromouse Maze</h3>
+                            <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Intelligent maze-solving simulation using DFS, BFS, A*, and Flood-Fill. Reduced navigation time by 30%.</p>
+                                <div class="flex gap-2"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Python</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Pygame</span></div>
+                                <a href="https://github.com/swethshaw/micromouse-maze" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-check-circle text-3xl"></i></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">Productivity Tool</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Task Reminder</h3>
+                            <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">React & Firebase app with push notifications. Increased user task fulfillment by 40%.</p>
+                                <div class="flex gap-2"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">React</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Firebase</span></div>
+                                <a href="https://github.com/swethshaw/Task-manager" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-chart-pie text-3xl"></i></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">FinTech</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">DineroSR Platform</h3>
+                            <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Financial management dashboard for tracking earnings and generating e-bills.</p>
+                                <div class="flex gap-2"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">React</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Tailwind</span></div>
+                                <a href="https://github.com/swethshaw/finance" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE SECTION -->
+        <section id="experience" class="py-24 px-6 md:px-12 bg-luxury-cream">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-2 block">The Journey</span>
+                    <h2 class="font-serif text-5xl text-luxury-black">Milestones</h2>
+                </div>
+                <div class="relative border-l border-luxury-gold/30 ml-3 md:ml-6 space-y-16 pl-8 md:pl-12">
+                    <div class="relative group" data-aos="fade-left">
+                        <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-luxury-gold rounded-full border-4 border-luxury-cream group-hover:scale-125 transition-transform shadow-md z-10"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">Full Stack Intern</h3>
+                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">Aug 2024 - Sep 2024</span>
+                        </div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">EDU-VERSITY (Ex tech Digital)</h4>
+                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl text-justify">Built responsive full-stack apps using React, Node.js, and MongoDB. Developed REST APIs with JWT authentication.</p>
+                    </div>
+                    <div class="relative group" data-aos="fade-left" data-aos-delay="100">
+                        <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-stone-300 rounded-full border-4 border-luxury-cream group-hover:bg-luxury-gold transition-colors z-10"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">MERN Stack Trainee</h3>
+                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">Jun 2024 - Jul 2024</span>
+                        </div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">CipherSchools</h4>
+                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl text-justify">Intensive training in MongoDB, Express, React, Node.js. Utilized Redux for state management.</p>
+                    </div>
+                    <div class="relative group" data-aos="fade-left" data-aos-delay="200">
+                        <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-stone-300 rounded-full border-4 border-luxury-cream group-hover:bg-luxury-gold transition-colors z-10"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">B.Tech in CSE</h3>
+                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">2022 - Present</span>
+                        </div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">Lovely Professional University</h4>
+                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl">Specializing in Full Stack Development.<br><span class="text-luxury-black font-semibold">CGPA: 7.47</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MARQUEE SECTION -->
+        <section class="py-16 bg-white border-y border-stone-100 overflow-hidden">
+            <div class="flex space-x-12 animate-marquee whitespace-nowrap">
+                <span class="text-2xl font-serif text-stone-300">IBM DevOps</span>
+                <span class="text-2xl font-serif text-luxury-black">Meta iOS Developer</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank SQL Gold</span>
+                <span class="text-2xl font-serif text-luxury-black">DSA by Abdul Bari</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank Python Gold</span>
+                <span class="text-2xl font-serif text-luxury-black">LinkedIn Front-End</span>
+                <span class="text-2xl font-serif text-stone-300">IBM DevOps</span>
+                <span class="text-2xl font-serif text-luxury-black">Meta iOS Developer</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank SQL Gold</span>
+                <span class="text-2xl font-serif text-luxury-black">DSA by Abdul Bari</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank Python Gold</span>
+                <span class="text-2xl font-serif text-luxury-black">LinkedIn Front-End</span>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="py-24 bg-luxury-black text-luxury-cream">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div data-aos="fade-right">
+                    <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Get in Touch</span>
+                    <h2 class="font-serif text-5xl md:text-6xl text-white mb-8">Let's Create <br> Excellence.</h2>
+                    <p class="text-stone-400 mb-12 max-w-md font-light leading-loose">Currently open for new opportunities in Full Stack & Mobile Development.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 text-stone-300"><i class="fas fa-map-marker-alt text-luxury-gold w-6 text-center"></i><span class="text-sm tracking-wide">Agartala, Tripura / Punjab, India</span></div>
+                        <div class="flex items-center gap-4 text-stone-300"><i class="fas fa-phone text-luxury-gold w-6 text-center"></i><span class="text-sm tracking-wide">+91-9366050184</span></div>
+                        <div class="flex items-center gap-4 text-stone-300"><i class="fas fa-envelope text-luxury-gold w-6 text-center"></i><span class="text-sm tracking-wide">swethshaw@gmail.com</span></div>
+                    </div>
+                </div>
+                <div class="bg-stone-900 p-8 md:p-12 border border-stone-800 rounded-sm" data-aos="fade-left">
+                    <form id="contact-form" class="space-y-8">
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Name</label><input type="text" name="user_name" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="John Doe" required></div>
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Email</label><input type="email" name="user_email" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="john@example.com" required></div>
+                        <div><label class="block text-xs uppercase tracking-widest text-luxury-gold mb-2">Message</label><textarea name="message" rows="4" class="w-full bg-transparent border-b border-stone-700 py-3 text-white focus:outline-none focus:border-luxury-gold transition-colors" placeholder="Tell me about your project..." required></textarea></div>
+                        <button type="submit" id="send-btn" class="w-full bg-luxury-gold text-luxury-black font-bold uppercase tracking-[0.2em] py-4 text-xs hover:bg-white transition-colors duration-300">Send Message</button>
+                        <p id="form-status" class="text-center text-xs tracking-widest mt-4 h-4"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-stone-950 py-12 border-t border-stone-900 text-center">
+            <h2 class="font-serif text-2xl text-white mb-6">Sweth<span class="text-luxury-gold">Shaw</span>.</h2>
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="https://github.com/swethshaw" target="_blank" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fab fa-github text-xl"></i></a>
+                <a href="https://linkedin.com/in/swethshaw" target="_blank" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+                <a href="https://swethshaw.github.io/Portfolio/" target="#" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fas fa-globe text-xl"></i></a>
+            </div>
+            <p class="text-stone-600 text-[10px] uppercase tracking-widest">&copy; 2025 Sweth Shaw. All Rights Reserved.</p>
+        </footer>
+
+        <button id="back-to-top" class="fixed bottom-8 right-8 bg-luxury-gold text-luxury-black w-12 h-12 flex items-center justify-center opacity-0 transition-all duration-500 hover:bg-white z-40 shadow-lg translate-y-20 rounded-full"><i class="fas fa-arrow-up"></i></button>
+
+    </main>
+
+    <script>
+        // --- 1. INITIALIZATION & LOADER ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const animateCounters = () => {
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / 50;
+                    let current = 0;
+                    const updateCounter = () => {
+                        current += increment;
+                        if(current < target) {
+                            counter.innerText = Math.ceil(current) + "+";
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.innerText = target + "+";
+                        }
+                    };
+                    updateCounter();
+                });
+            };
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    AOS.init({ duration: 1000, once: true, offset: 50 });
+                    initCharts();
+                    animateCounters();
+                }, 500);
+            }, 1000);
+        });
+
+        // --- 2. DYNAMIC CHARTS CONFIG ---
+        function initCharts() {
+            const lcValue = document.getElementById('stat-leetcode').getAttribute('data-target');
+            const gfgValue = document.getElementById('stat-gfg').getAttribute('data-target');
+            const hrValue = document.getElementById('stat-hackerrank').getAttribute('data-score');
+            const ctxDSA = document.getElementById('dsaChart').getContext('2d');
+            new Chart(ctxDSA, {
+                type: 'doughnut',
+                data: {
+                    labels: ['LeetCode', 'GFG', 'HackerRank'],
+                    datasets: [{
+                        data: [lcValue, gfgValue, hrValue],
+                        backgroundColor: ['#1A1A1A', '#D4AF37', '#E8E6E1'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '80%',
+                    plugins: { legend: { display: false } },
+                    animation: { animateScale: true, animateRotate: true }
+                }
+            });
+            const radarCanvas = document.getElementById('skillsRadar');
+            const radarScores = JSON.parse(radarCanvas.getAttribute('data-scores'));
+            const ctxRadar = radarCanvas.getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Frontend', 'Backend', 'Algo', 'DB', 'Design', 'Tools'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: radarScores,
+                        fill: true,
+                        backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                        borderColor: '#D4AF37',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#1A1A1A',
+                        pointBorderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: { display: false, stepSize: 20 },
+                            grid: { color: '#E5E5E5' },
+                            angleLines: { color: '#E5E5E5' },
+                            pointLabels: { font: { family: 'Montserrat', size: 12 }, color: '#1A1A1A' }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // --- 3. TYPEWRITER EFFECT ---
+        const typeText = document.getElementById('typing-text');
+        const phrases = ["Digital Ecosystems.", "Algorithmic Logic.", "Immersive Designs."];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+                typeText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typeText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500);
+            } else {
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+        type();
+
+        // --- 4. CANVAS BACKGROUND ---
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            initParticles();
+        }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > width) this.vx *= -1;
+                if(this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = '#D4AF37';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        function initParticles() {
+            particles = [];
+            const count = window.innerWidth < 768 ? 30 : 60;
+            for(let i=0; i<count; i++) particles.push(new Particle());
+        }
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for(let i=0; i<particles.length; i++) {
+                let p = particles[i];
+                p.update();
+                p.draw();
+                for(let j=i+1; j<particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animateCanvas();
+
+        // --- 5. 3D TILT EFFECT ---
+        if(window.innerWidth > 768) {
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                });
+            });
+        }
+
+        // --- 6. SCROLL LOGIC & MENU ---
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        });
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'py-2');
+                navbar.classList.remove('py-4');
+                backToTop.classList.remove('opacity-0', 'translate-y-20');
+            } else {
+                navbar.classList.remove('shadow-md', 'py-2');
+                navbar.classList.add('py-4');
+                backToTop.classList.add('opacity-0', 'translate-y-20');
+            }
+        });
+        backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        // --- 7. EMAILJS INTEGRATION ---
+        const PUBLIC_KEY = "rGKkILJ2qq6-f43vQ"; 
+        const SERVICE_ID = "service_bkdn86n";
+        const TEMPLATE_ID = "template_pixc215";
+
+        (function() { if(PUBLIC_KEY !== "YOUR_PUBLIC_KEY") emailjs.init(PUBLIC_KEY); })();
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('send-btn');
+            const status = document.getElementById('form-status');
+            if(PUBLIC_KEY === "YOUR_PUBLIC_KEY") { alert("Please configure EmailJS keys!"); return; }
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SENDING...';
+            
+            emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
+                .then(() => {
+                    status.innerHTML = 'MESSAGE SENT SUCCESSFULLY';
+                    status.style.color = '#10b981';
+                    btn.innerHTML = 'SEND MESSAGE';
+                    this.reset();
+                    setTimeout(() => status.innerHTML = '', 5000);
+                }, (error) => {
+                    status.innerHTML = 'FAILED TO SEND. TRY AGAIN.';
+                    status.style.color = '#ef4444';
+                    btn.innerHTML = 'SEND MESSAGE';
+                    console.log('FAILED...', error);
+                });
+        });
+    </script>
+</body>
+</html>
