@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sweth Shaw | Full Stack Architect</title>
+    <title>Sweth Shaw | Software Engineer</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
-    <!-- Icons & Fonts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
@@ -40,14 +38,9 @@
                         sans: ['"Montserrat"', 'sans-serif'],
                     },
                     animation: {
-                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
                         'marquee': 'marquee 30s linear infinite',
                     },
                     keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
                         marquee: {
                             '0%': { transform: 'translateX(0)' },
                             '100%': { transform: 'translateX(-50%)' },
@@ -65,13 +58,16 @@
         .chart-container { position: relative; width: 100%; height: 350px; max-width: 500px; margin: 0 auto; }
         .project-card { transition: transform 0.1s; transform-style: preserve-3d; }
         #loader { position: fixed; inset: 0; background: #F9F8F4; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
-        .mobile-menu-enter { transform: translateY(-100%); opacity: 0; }
-        .mobile-menu-enter-active { transform: translateY(0); opacity: 1; transition: all 0.3s ease-out; }
+        
+        /* Utility for GSAP text reveal */
+        .reveal-wrapper { overflow: hidden; display: inline-block; }
+        .gsap-reveal { transform: translateY(100%); opacity: 0; }
     </style>
 </head>
 <body class="bg-luxury-cream text-luxury-black font-sans antialiased overflow-x-hidden selection:bg-luxury-gold selection:text-white">
 
-    <!-- LOADING SCREEN -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-[2px] bg-luxury-gold z-[60] w-0"></div>
+
     <div id="loader">
         <div class="text-center">
             <h1 class="font-serif text-5xl text-luxury-black tracking-widest mb-4">Sweth Shaw</h1>
@@ -80,52 +76,55 @@
         </div>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="fixed top-0 w-full z-50 bg-luxury-cream/90 backdrop-blur-md border-b border-luxury-gold/10 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="font-serif text-2xl font-bold tracking-tighter hover:text-luxury-gold transition-colors">Sweth<span class="text-luxury-gold">Shaw</span></a>
             <div class="hidden md:flex space-x-8 text-xs font-medium tracking-[0.2em] uppercase">
-                <a href="#about" class="hover:text-luxury-gold transition-colors relative group">Identity<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
-                <a href="#skills" class="hover:text-luxury-gold transition-colors relative group">Capability<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
-                <a href="#projects" class="hover:text-luxury-gold transition-colors relative group">Works<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
-                <a href="#experience" class="hover:text-luxury-gold transition-colors relative group">Timeline<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
-                <a href="#contact" class="hover:text-luxury-gold transition-colors relative group">Contact<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#about" class="hover:text-luxury-gold transition-colors relative group">Profile<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#skills" class="hover:text-luxury-gold transition-colors relative group">Expertise<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#projects" class="hover:text-luxury-gold transition-colors relative group">Portfolio<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#experience" class="hover:text-luxury-gold transition-colors relative group">Journey<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
+                <a href="#contact" class="hover:text-luxury-gold transition-colors relative group">Connect<span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-luxury-gold transition-all group-hover:w-full"></span></a>
             </div>
             <button id="mobile-menu-btn" class="md:hidden text-luxury-black text-xl focus:outline-none hover:text-luxury-gold transition-colors"><i class="fas fa-bars"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-luxury-cream border-t border-stone-200 absolute w-full left-0 shadow-xl">
             <div class="flex flex-col p-6 space-y-4 text-center">
-                <a href="#about" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Identity</a>
-                <a href="#skills" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Capability</a>
-                <a href="#projects" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Works</a>
-                <a href="#experience" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Timeline</a>
-                <a href="#contact" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase">Contact</a>
+                <a href="#about" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Profile</a>
+                <a href="#skills" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Expertise</a>
+                <a href="#projects" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Portfolio</a>
+                <a href="#experience" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase border-b border-stone-100">Journey</a>
+                <a href="#contact" class="mobile-link block py-2 hover:text-luxury-gold text-sm tracking-widest uppercase">Connect</a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <header class="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <canvas id="heroCanvas" class="absolute inset-0 z-0"></canvas>
-        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto opacity-0 animate-fade-in-up" style="animation-delay: 0.5s;">
-            <p class="text-luxury-gold tracking-[0.4em] uppercase text-xs md:text-sm mb-6 font-semibold">Full Stack & Mobile Developer</p>
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-medium text-luxury-black mb-6 leading-tight">Sweth Shaw</h1>
-            <div class="h-8 mb-8">
-                <p class="text-luxury-grey text-lg md:text-xl font-light font-serif italic">I build <span id="typing-text" class="text-luxury-black font-normal not-italic"></span><span class="animate-pulse">|</span></p>
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <div class="reveal-wrapper mb-6">
+                <p class="gsap-reveal text-luxury-gold tracking-[0.4em] uppercase text-xs md:text-sm font-semibold">Software Engineer | Full Stack Developer</p>
             </div>
-            <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
-                <a href="Sweth_Shaw_FullStack_Resume.pdf" download class="group relative px-8 py-4 bg-luxury-black text-white text-xs tracking-[0.2em] uppercase overflow-hidden transition-all hover:bg-luxury-gold hover:shadow-lg">
+            <br>
+            <div class="reveal-wrapper mb-6">
+                <h1 class="gsap-reveal font-serif text-6xl md:text-8xl lg:text-9xl font-medium text-luxury-black leading-tight">Sweth Shaw</h1>
+            </div>
+            <br>
+            <div class="reveal-wrapper h-8 mb-8">
+                <p class="gsap-reveal text-luxury-grey text-lg md:text-xl font-light font-serif italic">I build <span id="typing-text" class="text-luxury-black font-normal not-italic"></span><span class="animate-pulse">|</span></p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-10 gsap-hero-btns opacity-0">
+                <a href="Sweth_Shaw_FullStack_Resume.pdf" download class="magnetic-btn group relative px-8 py-4 bg-luxury-black text-white text-xs tracking-[0.2em] uppercase overflow-hidden transition-all hover:bg-luxury-gold hover:shadow-lg">
                     <span class="relative z-10">Download CV <i class="fas fa-download ml-2"></i></span>
                 </a>
-                <a href="#contact" class="px-8 py-4 border border-luxury-black text-luxury-black text-xs tracking-[0.2em] uppercase hover:bg-luxury-black hover:text-white transition-colors duration-300">Hire Me</a>
+                <a href="#contact" class="magnetic-btn px-8 py-4 border border-luxury-black text-luxury-black text-xs tracking-[0.2em] uppercase hover:bg-luxury-black hover:text-white transition-colors duration-300">Hire Me</a>
             </div>
         </div>
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" onclick="document.getElementById('about').scrollIntoView()"><i class="fas fa-chevron-down text-luxury-gold opacity-80 text-xl"></i></div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer gsap-hero-arrow opacity-0" onclick="document.getElementById('about').scrollIntoView()"><i class="fas fa-chevron-down text-luxury-gold opacity-80 text-xl"></i></div>
     </header>
 
     <main class="relative bg-luxury-cream">
 
-        <!-- ABOUT & STATS SECTION -->
         <section id="about" class="py-24 px-6 md:px-12 border-t border-luxury-gold/10">
             <div class="max-w-7xl mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -133,10 +132,10 @@
                         <span class="text-luxury-gold text-xs font-bold tracking-[0.2em] uppercase mb-4 block">The Profile</span>
                         <h2 class="font-serif text-5xl md:text-6xl text-luxury-black mb-8">Engineered for <br> <span class="italic text-luxury-grey">Impact.</span></h2>
                         <p class="text-luxury-grey leading-loose font-light mb-6 text-justify">
-                            I am a software engineer based in India with a relentless focus on optimization and user experience. With a <strong class="text-luxury-black">B.Tech in Computer Science</strong> from Lovely Professional University (CGPA 7.47), I bridge the gap between complex backend logic and fluid frontend interfaces.
+                            I am a software engineer based in India with a relentless focus on optimization and user experience. With a <strong class="text-luxury-black">B.Tech in Computer Science</strong> from Lovely Professional University (CGPA 7.59), I bridge the gap between complex backend logic and fluid frontend interfaces.
                         </p>
                         <p class="text-luxury-grey leading-loose font-light mb-8 text-justify">
-                            My expertise spans the <strong class="text-luxury-black">MERN stack, Python automation, and Native Mobile development</strong>. I don't just write code; I solve problems—proven by my record of 400+ algorithmic solutions across competitive platforms.
+                            My expertise spans the <strong class="text-luxury-black">MERN stack, Python automation, and modern Mobile development</strong>. Utilizing languages like C++, JavaScript, Python, Swift, and TypeScript, I don't just write code; I solve problems—proven by my record of algorithmic solutions across competitive platforms.
                         </p>
                         <div class="flex gap-6 pt-4 border-t border-stone-200 w-max">
                             <a href="https://www.linkedin.com/in/swethshaw/" target="_blank" class="text-stone-400 hover:text-luxury-gold hover:scale-110 transition-all text-2xl"><i class="fab fa-linkedin"></i></a>
@@ -145,7 +144,6 @@
                         </div>
                     </div>
 
-                    <!-- DYNAMIC DSA CHART SECTION -->
                     <div class="relative" data-aos="fade-left">
                         <div class="absolute -top-10 -right-10 w-32 h-32 bg-luxury-gold/10 rounded-full blur-3xl"></div>
                         <div class="bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-stone-100 rounded-sm">
@@ -175,7 +173,6 @@
             </div>
         </section>
 
-        <!-- SKILLS SECTION -->
         <section id="skills" class="py-24 bg-stone-100 px-6 md:px-12 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent opacity-30"></div>
             <div class="max-w-7xl mx-auto">
@@ -185,45 +182,86 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <div class="lg:col-span-1 space-y-12" data-aos="fade-right">
-                        <!-- Skills Text lists -->
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-10" data-aos="fade-right">
+                        
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Languages</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">C++</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">JavaScript</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Python</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Swift</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">TypeScript</span>
+                            </div>
+                        </div>
+
                         <div>
                             <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Frontend</h3>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">React.js</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Tailwind</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">HTML5/CSS3</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">HTML/CSS</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">React</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">React Native</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Angular</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Tailwind</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Bootstrap</span>
                             </div>
                         </div>
+
                         <div>
                             <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Backend</h3>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Node.js</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Express</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Django</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Node.js</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Express.js</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Django</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">REST API</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">OAuth</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">WebSockets</span>
                             </div>
                         </div>
+
                         <div>
-                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Tools</h3>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Database & Cloud</h3>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">MongoDB</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Firebase</span>
-                                <span class="px-4 py-2 bg-white border border-stone-200 text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Git/GitHub</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">MySQL</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">MongoDB</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Firebase</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Supabase</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">AWS</span>
                             </div>
                         </div>
+
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Dev Tools</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Git/GitHub</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Docker</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">CI/CD</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Postman</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Xcode</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Android Studio</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-serif text-2xl mb-4 flex items-center gap-3"><span class="w-8 h-[1px] bg-luxury-gold"></span> Soft Skills</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Analytical Reasoning</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Team Collaboration</span>
+                                <span class="px-3 py-1 bg-white border border-stone-200 text-[10px] md:text-xs tracking-wider uppercase hover:bg-luxury-gold hover:text-white transition-colors cursor-default">Leadership</span>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- DYNAMIC RADAR CHART -->
-                    <div class="lg:col-span-2 flex items-center justify-center bg-white border border-stone-200 shadow-sm p-6 rounded-sm" data-aos="zoom-in">
+                    <div class="lg:col-span-1 flex items-center justify-center bg-white border border-stone-200 shadow-sm p-6 rounded-sm" data-aos="zoom-in">
                         <div class="chart-container">
-                            <canvas id="skillsRadar" data-scores="[90, 80, 75, 75, 70, 90]"></canvas>
+                            <canvas id="skillsRadar" data-scores="[85, 90, 85, 80, 80, 95]"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROJECTS SECTION -->
         <section id="projects" class="py-24 px-6 md:px-12 bg-luxury-black text-luxury-cream overflow-hidden">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-luxury-gold/30 pb-6" data-aos="fade-up">
@@ -233,22 +271,36 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project 1 -->
+                    
                     <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="100">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
-                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-gamepad text-3xl"></i></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-wallet text-3xl"></i></div>
                         <div class="absolute bottom-0 left-0 p-8 w-full">
-                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">Algorithm & AI</span>
-                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Micromouse Maze</h3>
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">SaaS Platform</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Ruppy Khata</h3>
                             <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
-                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Intelligent maze-solving simulation using DFS, BFS, A*, and Flood-Fill. Reduced navigation time by 30%.</p>
-                                <div class="flex gap-2"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Python</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Pygame</span></div>
-                                <a href="https://github.com/swethshaw/micromouse-maze" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Peer-to-peer financial platform with UPI integration, custom installments, and encrypted security.</p>
+                                <div class="flex gap-2 flex-wrap"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Next.js</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">React Native</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Supabase</span></div>
+                                <a href="https://github.com/swethshaw" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
                             </div>
                         </div>
                     </div>
-                    <!-- Project 2 -->
+
                     <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-users text-3xl"></i></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">Interactive App</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Live Quiz Platform</h3>
+                            <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">WebSocket-driven multiplayer quiz app with real-time leaderboards, dynamic timers, and RBAC.</p>
+                                <div class="flex gap-2 flex-wrap"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">React</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">WebSockets</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">MongoDB</span></div>
+                                <a href="https://github.com/swethshaw" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="300">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
                         <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-check-circle text-3xl"></i></div>
                         <div class="absolute bottom-0 left-0 p-8 w-full">
@@ -261,25 +313,39 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project 3 -->
-                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="300">
+
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="400">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
                         <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-chart-pie text-3xl"></i></div>
                         <div class="absolute bottom-0 left-0 p-8 w-full">
                             <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">FinTech</span>
                             <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">DineroSR Platform</h3>
                             <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
-                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Financial management dashboard for tracking earnings and generating e-bills.</p>
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Financial management dashboard for tracking earnings and generating peer-to-peer e-bills.</p>
                                 <div class="flex gap-2"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">React</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Tailwind</span></div>
                                 <a href="https://github.com/swethshaw/finance" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
                             </div>
                         </div>
                     </div>
+
+                    <div class="project-card group relative h-[450px] bg-stone-900 border border-stone-800 hover:border-luxury-gold transition-colors overflow-hidden rounded-sm" data-aos="fade-up" data-aos-delay="500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-stone-900/50 to-transparent opacity-90"></div>
+                        <div class="absolute top-6 right-6 text-stone-700 group-hover:text-luxury-gold transition-colors duration-500"><i class="fas fa-gamepad text-3xl"></i></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="text-luxury-gold text-[10px] tracking-[0.3em] uppercase mb-3 block opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">Algorithm & AI</span>
+                            <h3 class="font-serif text-3xl text-white mb-4 group-hover:-translate-y-2 transition-transform duration-500">Micromouse Maze</h3>
+                            <div class="space-y-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 h-0 group-hover:h-auto overflow-hidden">
+                                <p class="text-stone-400 text-sm leading-relaxed border-l-2 border-luxury-gold pl-3">Intelligent maze-solving simulation using DFS, BFS, A*, and Flood-Fill. Reduced navigation time by 30%.</p>
+                                <div class="flex gap-2 flex-wrap"><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Python</span><span class="text-[10px] border border-stone-700 px-2 py-1 text-stone-300 uppercase">Pygame</span></div>
+                                <a href="https://github.com/swethshaw/micromouse-maze" target="_blank" class="inline-block text-luxury-gold text-xs uppercase tracking-widest border-b border-luxury-gold pb-1 hover:text-white hover:border-white transition-all mt-2">View Source</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- TIMELINE SECTION -->
         <section id="experience" class="py-24 px-6 md:px-12 bg-luxury-cream">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-16" data-aos="fade-up">
@@ -290,13 +356,22 @@
                     <div class="relative group" data-aos="fade-left">
                         <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-luxury-gold rounded-full border-4 border-luxury-cream group-hover:scale-125 transition-transform shadow-md z-10"></div>
                         <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
+                            <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">Full Stack Team Lead Intern</h3>
+                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">Sep 2025 - Dec 2025</span>
+                        </div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">SMARANAI.IN</h4>
+                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl text-justify">Led a remote full-stack team by defining architecture, mentoring developers, and building apps with React, Node.js, and REST APIs.</p>
+                    </div>
+                    <div class="relative group" data-aos="fade-left" data-aos-delay="100">
+                        <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-stone-300 rounded-full border-4 border-luxury-cream group-hover:bg-luxury-gold transition-colors z-10"></div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
                             <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">Full Stack Intern</h3>
                             <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">Aug 2024 - Sep 2024</span>
                         </div>
                         <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">EDU-VERSITY (Ex tech Digital)</h4>
                         <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl text-justify">Built responsive full-stack apps using React, Node.js, and MongoDB. Developed REST APIs with JWT authentication.</p>
                     </div>
-                    <div class="relative group" data-aos="fade-left" data-aos-delay="100">
+                    <div class="relative group" data-aos="fade-left" data-aos-delay="200">
                         <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-stone-300 rounded-full border-4 border-luxury-cream group-hover:bg-luxury-gold transition-colors z-10"></div>
                         <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
                             <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">MERN Stack Trainee</h3>
@@ -305,38 +380,36 @@
                         <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">CipherSchools</h4>
                         <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl text-justify">Intensive training in MongoDB, Express, React, Node.js. Utilized Redux for state management.</p>
                     </div>
-                    <div class="relative group" data-aos="fade-left" data-aos-delay="200">
+                    <div class="relative group" data-aos="fade-left" data-aos-delay="300">
                         <div class="absolute -left-[41px] md:-left-[59px] w-5 h-5 bg-stone-300 rounded-full border-4 border-luxury-cream group-hover:bg-luxury-gold transition-colors z-10"></div>
                         <div class="flex flex-col md:flex-row justify-between md:items-baseline mb-2">
                             <h3 class="font-serif text-2xl md:text-3xl text-luxury-black">B.Tech in CSE</h3>
-                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">2022 - Present</span>
+                            <span class="text-xs font-bold text-luxury-gold uppercase tracking-widest">2022 - 2026</span>
                         </div>
                         <h4 class="text-xs font-bold uppercase tracking-widest text-luxury-grey mb-4">Lovely Professional University</h4>
-                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl">Specializing in Full Stack Development.<br><span class="text-luxury-black font-semibold">CGPA: 7.47</span></p>
+                        <p class="text-luxury-grey text-sm leading-relaxed max-w-2xl">Specializing in Full Stack Development.<br><span class="text-luxury-black font-semibold">CGPA: 7.59</span></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- MARQUEE SECTION -->
         <section class="py-16 bg-white border-y border-stone-100 overflow-hidden">
             <div class="flex space-x-12 animate-marquee whitespace-nowrap">
                 <span class="text-2xl font-serif text-stone-300">IBM DevOps</span>
-                <span class="text-2xl font-serif text-luxury-black">Meta iOS Developer</span>
-                <span class="text-2xl font-serif text-stone-300">HackerRank SQL Gold</span>
                 <span class="text-2xl font-serif text-luxury-black">DSA by Abdul Bari</span>
-                <span class="text-2xl font-serif text-stone-300">HackerRank Python Gold</span>
-                <span class="text-2xl font-serif text-luxury-black">LinkedIn Front-End</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank SQL (Advanced)</span>
+                <span class="text-2xl font-serif text-luxury-black">MERN Full-Stack</span>
                 <span class="text-2xl font-serif text-stone-300">IBM DevOps</span>
-                <span class="text-2xl font-serif text-luxury-black">Meta iOS Developer</span>
-                <span class="text-2xl font-serif text-stone-300">HackerRank SQL Gold</span>
                 <span class="text-2xl font-serif text-luxury-black">DSA by Abdul Bari</span>
-                <span class="text-2xl font-serif text-stone-300">HackerRank Python Gold</span>
-                <span class="text-2xl font-serif text-luxury-black">LinkedIn Front-End</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank SQL (Advanced)</span>
+                <span class="text-2xl font-serif text-luxury-black">MERN Full-Stack</span>
+                <span class="text-2xl font-serif text-stone-300">IBM DevOps</span>
+                <span class="text-2xl font-serif text-luxury-black">DSA by Abdul Bari</span>
+                <span class="text-2xl font-serif text-stone-300">HackerRank SQL (Advanced)</span>
+                <span class="text-2xl font-serif text-luxury-black">MERN Full-Stack</span>
             </div>
         </section>
 
-        <!-- CONTACT SECTION -->
         <section id="contact" class="py-24 bg-luxury-black text-luxury-cream">
             <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
                 <div data-aos="fade-right">
@@ -365,10 +438,10 @@
             <h2 class="font-serif text-2xl text-white mb-6">Sweth<span class="text-luxury-gold">Shaw</span>.</h2>
             <div class="flex justify-center gap-8 mb-8">
                 <a href="https://github.com/swethshaw" target="_blank" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fab fa-github text-xl"></i></a>
-                <a href="https://linkedin.com/in/swethshaw" target="_blank" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+                <a href="https://www.linkedin.com/in/swethshaw/" target="_blank" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
                 <a href="https://swethshaw.github.io/Portfolio/" target="#" class="text-stone-500 hover:text-luxury-gold transition-colors"><i class="fas fa-globe text-xl"></i></a>
             </div>
-            <p class="text-stone-600 text-[10px] uppercase tracking-widest">&copy; 2025 Sweth Shaw. All Rights Reserved.</p>
+            <p class="text-stone-600 text-[10px] uppercase tracking-widest">&copy; 2026 Sweth Shaw. All Rights Reserved.</p>
         </footer>
 
         <button id="back-to-top" class="fixed bottom-8 right-8 bg-luxury-gold text-luxury-black w-12 h-12 flex items-center justify-center opacity-0 transition-all duration-500 hover:bg-white z-40 shadow-lg translate-y-20 rounded-full"><i class="fas fa-arrow-up"></i></button>
@@ -376,7 +449,7 @@
     </main>
 
     <script>
-        // --- 1. INITIALIZATION & LOADER ---
+        // --- 1. INITIALIZATION, LOADER & GSAP ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             const animateCounters = () => {
@@ -405,6 +478,22 @@
                     AOS.init({ duration: 1000, once: true, offset: 50 });
                     initCharts();
                     animateCounters();
+                    
+                    // Trigger GSAP Hero Animation
+                    gsap.to(".gsap-reveal", {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        stagger: 0.2,
+                        ease: "power4.out"
+                    });
+                    gsap.to([".gsap-hero-btns", ".gsap-hero-arrow"], {
+                        opacity: 1,
+                        duration: 1,
+                        delay: 0.8,
+                        ease: "power2.out"
+                    });
+
                 }, 500);
             }, 1000);
         });
@@ -437,10 +526,12 @@
             const radarCanvas = document.getElementById('skillsRadar');
             const radarScores = JSON.parse(radarCanvas.getAttribute('data-scores'));
             const ctxRadar = radarCanvas.getContext('2d');
+            
+            // Updated radar chart labels to map exactly to your 6 specific skill categories
             new Chart(ctxRadar, {
                 type: 'radar',
                 data: {
-                    labels: ['Frontend', 'Backend', 'Algo', 'DB', 'Design', 'Tools'],
+                    labels: ['Languages', 'Frontend', 'Backend', 'Database', 'Tools', 'Soft Skills'],
                     datasets: [{
                         label: 'Proficiency',
                         data: radarScores,
@@ -472,7 +563,7 @@
 
         // --- 3. TYPEWRITER EFFECT ---
         const typeText = document.getElementById('typing-text');
-        const phrases = ["Digital Ecosystems.", "Algorithmic Logic.", "Immersive Designs."];
+        const phrases = ["Digital Ecosystems.", "Algorithmic Logic.", "SaaS Platforms.", "FinTech Solutions."];
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -564,8 +655,9 @@
         resizeCanvas();
         animateCanvas();
 
-        // --- 5. 3D TILT EFFECT ---
+        // --- 5. 3D TILT & MAGNETIC EFFECT ---
         if(window.innerWidth > 768) {
+            // Project Cards
             document.querySelectorAll('.project-card').forEach(card => {
                 card.addEventListener('mousemove', e => {
                     const rect = card.getBoundingClientRect();
@@ -581,6 +673,19 @@
                     card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
                 });
             });
+
+            // Magnetic Buttons
+            document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: 'power2.out' });
+                });
+                btn.addEventListener('mouseleave', () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+                });
+            });
         }
 
         // --- 6. SCROLL LOGIC & MENU ---
@@ -588,6 +693,7 @@
         const backToTop = document.getElementById('back-to-top');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const progressBar = document.getElementById('scroll-progress');
         
         mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
         document.querySelectorAll('.mobile-link').forEach(link => {
@@ -595,6 +701,7 @@
         });
         
         window.addEventListener('scroll', () => {
+            // Navbar styling
             if (window.scrollY > 50) {
                 navbar.classList.add('shadow-md', 'py-2');
                 navbar.classList.remove('py-4');
@@ -604,6 +711,12 @@
                 navbar.classList.add('py-4');
                 backToTop.classList.add('opacity-0', 'translate-y-20');
             }
+
+            // Scroll Progress Bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
         });
         backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
